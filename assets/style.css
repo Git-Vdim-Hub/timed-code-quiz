@@ -1,4 +1,65 @@
 *{
-    text-emphasis: bolder;
-    text-decoration: underline solid black;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.navBar{
+   height: 50px;
+   width: 100%; 
+   display: flex;
+   justify-content:space-between; 
+}
+.time{
+    display: flex;
+    font-size:medium;
+    padding: 0.5%;
+    text-decoration: none;
+    flex-direction:row-reverse;
+}
+
+.scoreSheet{
+    font-size:medium;
+    padding: 0.5%;
+    text-decoration: none;
+}
+
+.title{
+    display: flex;
+    height: 25px;
+    width: 100%;
+    font-size: x-large;
+    font-weight:900;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.descContainer{
+    display: flex;
+    height: 50px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.description{
+    display: flex;
+    height: 50px;
+    width: 33%;
+    text-align: center;
+}
+
+
+.startButtonContainer{
+    display:flex;
+    height: 50px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.startButton{
+    display: flex;
+    background-color: blueviolet;
+    color: white;
+    border-radius: 8px;
 }
