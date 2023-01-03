@@ -63,3 +63,12 @@
     color: white;
     border-radius: 8px;
 }
+
+.startButton:hover{
+    display: flex;
+    background-color: blueviolet;
+    color: white;
+    border-radius: 8px;
+    cursor:pointer;
+    opacity: 90%;
+}
