@@ -1,24 +1,32 @@
 //pseudocode
 //review mod 4
-//1. change questions to table row
-//2. check correct answer
-//3. create the High Score entry field
-//4. create the scoresheet using table row
-//5. add two buttons for the score sheet to either clear it or go back
+//1. fix logic error between functions to check answer
+//2. create the High Score entry field
+//3. create the scoresheet
+//4. add two buttons for the score sheet to either clear it or go back
 //  a store the scores in local storage
-//6. Create function to show the initial page again
-//7. create function to hide and show Start Quiz Button
-var startQuizBtn = document.querySelector('#startQuiz');
-startQuizBtn.addEventListener('click', executeQuiz);
+//5. Create questions
+
+
+
 const splash = document.querySelector('#splashPage');
+displaySplashPage();
+const startQuizBtn = document.querySelector('#startQuiz');
+var timeEl = document.querySelector(".time");
+startQuizBtn.addEventListener('click', executeQuiz);
+var selectedAnswer;
+var questionNumber = 0;
+var secondsLeft = 25;
+var score=0;
+
 var quizQuestions = [
   question1 = {
-    question: 'Blah Blah Blah',
-    A: 'one answer',
-    B: 'two answer',
-    C: 'three answer',
-    D: 'four answer',
-    Ans: 'A'
+    question: 'Blah Blah Blah place your  question here and be marry',
+    A: 'this is a really long choice so read it blah blah',
+    B: 'ayayayayyaya hello I love chickens',
+    C: 'what would it cost to rent a private jet',
+    D: 'I wonder how this will look after I am done typing it out',
+    Ans: '1. this is a really long choice so read it blah blah'
   },
   question2 = {
     question: "Me Me Me",
@@ -26,7 +34,7 @@ var quizQuestions = [
     B: 'that answer',
     C: 'C answer',
     D: 'D answer',
-    Ans: 'A'
+    Ans: '1. this answer'
   },
   question3 = {
     question: "La La La",
@@ -34,82 +42,80 @@ var quizQuestions = [
     B: 'out answer',
     C: 'fix answer',
     D: 'stix answer',
-    Ans: 'A'
+    Ans: '1. in answer'
   },
 ];
 
 function displaySplashPage(){
-  //  const title = document.createElement('h1');
-  //  title.classList.add("title");
-  //  title.innerHTML = 'Coding Quiz Challenge';
    splash.innerHTML = `
    <h1 class="title">
     Coding Quiz Challenge
     </h1>
-   <div class="descContainer">
+   <div class="container">
       <p class="description">
         Try to answer the following code-related questions within the time limit.
         Keep in mind that incorrect answers will penalize your score/time by _ seconds.
         </p>
     </div>
+    <div class="startButtonContainer">
+    <button id="startQuiz" class="startButton">
+      Start Quiz
+    </button>
+  </div>
    `;
-
-   //list.appendChild(title);
-
-  //  const descContainer = document.createElement('div');
-  //  descContainer.classList.add("descContainer");
-  //  list.appendChild('div');
-  //  const desc = document.createElement("p");
-  //  desc.classList.add("description");
-  //  desc.innerHTNL = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by _ seconds."
-  //  descContainer.appendChild("desc");
 }
 
-displaySplashPage();
-
-function hideSplashPage(){
-  console.log(splash);
-  for(var i=0; i<splash.length; i++){
-    splash[i].remove();
-  }
-  console.log(splash);
-}
 
 function executeQuiz(){
   console.log("You started the quiz");
   setTime();
-  showQuestion();
+  showQuestion(questionNumber);
   checkQuestion();
+  // questionNumber++;
 }
 
-function showQuestion(){
+function showQuestion(question){
   splash.innerHTML=`
-  <h1 class="title">${quizQuestions[0].question}</h1>
-  <div class="descContainer">
-     <p class="description">
-       ${quizQuestions[0].A}
-       ${quizQuestions[0].B}
-       ${quizQuestions[0].C}
-       ${quizQuestions[0].D}
-   </div>
+    <div class="questionContainer">
+      <div class="questions">
+      <h1 class="question">${quizQuestions[question].question}</h1>
+       <div id="A">1. ${quizQuestions[question].A}</div>
+       <div id="B">2. ${quizQuestions[question].B}</div>
+       <div id="C">3. ${quizQuestions[question].C}</div>
+       <div id="D">4. ${quizQuestions[question].D}</div>
+      </div>
+    </div>  
   `;
-  console.log(splash);
+}
+
+function endQuiz(){
+  splash.innherHTML='';
+  console.log(splash.innherHTM);
 }
 
 function checkQuestion(){
-  splash.addEventListener("click", function (event) {
-       var element = event.target;
-       console.log(element);
+  document.querySelector('.questions').addEventListener('click', function(event){
+    selectedAnswer = event.target.innerHTML;
+    console.log(selectedAnswer);
+    console.log(quizQuestions[questionNumber].Ans)
+    if(selectedAnswer!==quizQuestions[questionNumber].Ans){
+      score+=5;
+    }else{
+      secondsLeft-=5;
+    }
+    questionNumber++;
+    showQuestion(questionNumber);
+    if(questionNumber<=(quizQuestions.length-1)){
+      console.log(questionNumber);
+      console.log(quizQuestions.length-1);
+      checkQuestion();
+    } else{
+      score+=secondsLeft;
+      endQuiz();
+    }
+    
   })
 };
-
-// Selects element by class
-var timeEl = document.querySelector(".time");
-
-// Selects element by id
-var mainEl = document.getElementById("colorSplosion");
-
-var secondsLeft = 10;
 
 function setTime() {
   // Sets interval in variable
@@ -117,27 +123,17 @@ function setTime() {
     secondsLeft--;
     timeEl.textContent = "Time: "+secondsLeft;
 
-    if(secondsLeft === 0) {
+    if(secondsLeft <= 0) {
       // Stops execution of action at set interval
-      // clearInterval(timerInterval);
+      clearInterval(timerInterval);
       // Calls function to create and append image
-      sendMessage();
+      endQuiz();
     }
 
   }, 1000);
 }
 
-// Function to create and append colorsplosion image
-function sendMessage() {
-  timeEl.textContent = " ";
-  var imgEl = document.createElement("img");
-  imgEl.setAttribute("src", "./assets/images/image_1.jpg");
-  // mainEl.appendChild(imgEl);
+function endQuiz(){
 
 }
-
-
-// setInterval(function(){
-//   console.log("Hello")
-// }, 5000)
     
