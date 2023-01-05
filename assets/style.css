@@ -67,13 +67,18 @@
 
 
 
-#A, #B, #C, #D{
+#ans{
     display:flex;
     justify-content: center;
     align-items: center;
     background-color: purple;
     color:white;
     padding-bottom:1%;
+}
+
+#ans:hover{
+    cursor:pointer;
+    opacity: 90%;
 }
 
 .description{
@@ -93,7 +98,7 @@
     padding-top: 10px;
 }
 
-.startButton{
+.button{
     display: flex;
     background-color: blueviolet;
     color: white;
