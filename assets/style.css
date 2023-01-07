@@ -16,10 +16,11 @@
     flex-direction:row-reverse;
 }
 
-.scoreSheet{
+.scoreSheetLink{
     font-size:medium;
     padding: 0.5%;
     text-decoration: none;
+    color:blueviolet;
 }
 
 .title{
@@ -59,6 +60,14 @@
 
 .question{
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    font-size:large;
+}
+
+.scoresTitle{
+    display:flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
@@ -105,12 +114,18 @@
     border-radius: 8px;
 }
 
-.startButton:hover{
+.button:hover{
     display: flex;
     background-color: blueviolet;
     color: white;
     border-radius: 8px;
     cursor:pointer;
     opacity: 90%;
+}
+
+.scores{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start
 }
 

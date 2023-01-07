@@ -1,28 +1,33 @@
-//pseudocode
-//review mod 4
-//2. create the High Score entry field
-//3. create the scoresheet
-//4. add two buttons for the score sheet to either clear it or go back
-//  a store the scores in local storage
-//5. Create questions
-//6. properly link the "View HighScores"
-//7. annotate if answer is right or wrong
-//8. write comments
-//9. write readme
+//to-do
+//1. annotate if answer is right or wrong
+//2. create questions
+//3. complete styling
+//4. write comments
+//5. write readme
 
 
-
+const viewHighScores = document.querySelector(".scoreSheetLink");
 const splash = document.querySelector('#splashPage');
 displaySplashPage();
-const startQuizBtn = document.querySelector('#startQuiz');
 var timeEl = document.querySelector(".time");
-startQuizBtn.addEventListener('click', executeQuiz);
+var scoresCountSpan = document.querySelector("#scores-count");
 var selectedAnswer;
-var questionNumber = 0;
-var secondsLeft = 25;
-var score=0;
-var quizComplete=false;
+var questionNumber;
+var secondsLeft;
+var score;
+var quizComplete;
 var timerInterval;
+var savedInfo = {
+  initials: "",
+  score: ""
+}; 
+var scoreNumberIndex=0;
+var scores=[];
+
+viewHighScores.addEventListener("click", function(event) {
+  renderScores();
+  clearInterval(timerInterval);
+})
 
 var quizQuestions = [
   question1 = {
@@ -68,14 +73,21 @@ function displaySplashPage(){
     </button>
   </div>
    `;
-}
+   const startQuizBtn = document.querySelector('#startQuiz'); 
+  startQuizBtn.addEventListener('click', executeQuiz);
+};
 
 
 function executeQuiz(){
+  secondsLeft = 25;
+  score=0;
+  questionNumber = 0;
+  selectedAnswer = "";
+  quizComplete=false;
   setTime();
   showQuestion(questionNumber);
   checkQuestion();
-}
+};
 
 function showQuestion(question){
   splash.innerHTML=`
@@ -89,31 +101,29 @@ function showQuestion(question){
       </div>
     </div>  
   `;
-}
+};
 
 function checkQuestion(){
   document.querySelector('.questions').addEventListener('click', function(event){
     selectedAnswer = event.target.innerHTML;
-    console.log(selectedAnswer);
-    console.log(quizQuestions[questionNumber].Ans)
+    var questionBox = document.querySelector("#ans");
     if(selectedAnswer==quizQuestions[questionNumber].Ans){
       score+=5;
+      questionBox.setAttribute('style','background-color: #333333;');
     }else{
       secondsLeft-=5;
     }
     questionNumber++;
     showQuestion(questionNumber);
     if(questionNumber<(quizQuestions.length-1)){
-      console.log(questionNumber);
-      console.log(quizQuestions.length-1);
       checkQuestion();
     } else{
       document.querySelector('.questions').addEventListener('click', function(event){
         selectedAnswer = event.target.innerHTML;
-        console.log(selectedAnswer);
-        console.log(quizQuestions[questionNumber].Ans)
         if(selectedAnswer==quizQuestions[questionNumber].Ans){
           score+=5;
+          checkQdiv.textContent = "Correct!";
+          questionBox.appendChild(checkQdiv);
         }else{
           secondsLeft-=5;
         }
@@ -129,26 +139,87 @@ function endQuiz(){
   // Stops execution of action at set interval
   clearInterval(timerInterval);
   splash.innerHTML=`
-  <div class="questionContainer">
-    <div class="questions">
-      <h1 class="question">All done!</h1>
-      <div> Your final score is ${score}</div>
-    </div>
-    <div>Enter Initials: </div>
-    <input type="text" id="initials">
-      <button id="submitBtn" class="button">
-      Submit
-    </button>
-  </div>  
-`;
-const submitBtn = document.querySelector('#submitBtn');
-var initialsInput = document.querySelector("initials");
-submitBtn.addEventListener("click", function(event){
-  console.log("You clicked the submit button");
-  var studentInitials = initialsInput.innerHTML;
-  console.log("studentInitials");
-});
+    <div class="questionContainer">
+      <div class="questions">
+        <h1 class="question">All done!</h1>
+        <div> Your final score is ${score}</div>
+      </div>
+      <div>Enter Initials: </div>
+      <input type="text" id="initials">
+        <button id="submitBtn" class="button">
+        Submit
+      </button>
+    </div>  
+  `;
+  splash.addEventListener("click", function(event) {
+    var element = event.target;
+    if(element.matches("button")===true){
+      storeScore();
+    }
+  }) 
+};
+
+function retrieveSavedScores(){
+  var storedScores = JSON.parse(localStorage.getItem("scores"));
+    scores = storedScores;
+    console.log(scores);
 }
+
+
+function storeScore(){
+  var initialsValue = document.getElementById("initials").value;
+    savedInfo = {
+      initials: initialsValue,
+      score: score
+    } 
+  scores[scoreNumberIndex]=savedInfo;
+  scoreNumberIndex++;
+  localStorage.setItem("scores", JSON.stringify(scores));
+  renderScores();
+};
+
+function renderScores(){
+  retrieveSavedScores();
+  splash.innerHTML = "";
+  var div = document.createElement("div");
+  div.className = "highScoresTitle";
+  div.textContent= "Highscores";
+  splash.appendChild(div);
+  var element = document.querySelector(".highScoresTitle");
+  //scoresCountSpan.textContent = scores.length;
+
+  for (var i = 0; i<scores.length; i++){
+    var initials = scores[i].initials;
+    var score = scores[i].score;
+    
+    var li = document.createElement("li");
+    li.textContent = `${initials} - ${score}`;
+    li.setAttribute("data-index",i);
+    element.appendChild(li);
+  }
+  var goBackButton = document.createElement("button");
+  goBackButton.textContent = "Go Back";
+  goBackButton.className = "button";
+  splash.appendChild(goBackButton);
+
+  var clearHighScoresButton = document.createElement("button");
+  clearHighScoresButton.textContent = "Clear High Scores";
+  clearHighScoresButton.className = "button";
+  splash.appendChild(clearHighScoresButton);
+  
+  goBackButton.addEventListener("click", function(event) {
+    displaySplashPage();
+  })
+
+  clearHighScoresButton.addEventListener("click", function(event) {
+    var element = document.querySelector(".highScoresTitle");
+    scores=[];
+    scoreNumberIndex = 0;
+    localStorage.setItem("scores", JSON.stringify(scores));
+    element.innerHTML = 'Highscores';
+    // element.appendChild();
+  })
+}  
 
 function setTime() {
   // Sets interval in variable
@@ -162,4 +233,4 @@ function setTime() {
       endQuiz();
     }
   }, 1000);
-}  
+}
