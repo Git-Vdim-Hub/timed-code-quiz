@@ -1,6 +1,9 @@
+/* font for entire project */
+
 *{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+/* navbar styling */
 
 .navBar{
    height: 50px;
@@ -8,6 +11,8 @@
    display: flex;
    justify-content:space-between; 
 }
+
+/* time indicator styling */
 .time{
     display: flex;
     font-size:medium;
@@ -16,6 +21,7 @@
     flex-direction:row-reverse;
 }
 
+/* View Highscores link styling */
 .scoreSheetLink{
     font-size:medium;
     padding: 0.5%;
@@ -23,6 +29,20 @@
     color:blueviolet;
 }
 
+.scoreSheetLink:hover{
+    cursor:pointer;
+    opacity: 70%;
+}
+
+/* base styling for all text for everything besides what is mentioned up top */
+#splashPage{
+    display: flex;
+    justify-content: center;
+    flex-direction:column
+
+}
+
+/* Styling for Code Quiz Challenge text */
 .title{
     display: flex;
     height: 25px;
@@ -34,6 +54,8 @@
 
 }
 
+/* Styling for Code QUiz Challenge instructions */
+
 .container{
     display: flex;
     height: 50px;
@@ -42,6 +64,8 @@
     align-items: center;
 }
 
+
+/* container styling for all questions */
 .questionContainer{
     display: flex;
     width: 100%;
@@ -50,12 +74,19 @@
     font-size: large;
 }
 
+/* styling for each question being rendered */
+
 .questions{
     display: flex;
     width: 33%;
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
+}
+
+.questions div{
+    padding-bottom: 1%;
+    margin-bottom: 1%;
 }
 
 .question{
@@ -75,8 +106,8 @@
 }
 
 
-
-#ans{
+/*  styling for each question answer */
+#a, #b, #c, #d{
     display:flex;
     justify-content: center;
     align-items: center;
@@ -85,11 +116,27 @@
     padding-bottom:1%;
 }
 
-#ans:hover{
+#a:hover{
     cursor:pointer;
-    opacity: 90%;
+    opacity: 70%;
 }
 
+#b:hover{
+    cursor:pointer;
+    opacity: 70%;
+}
+
+#c:hover{
+    cursor:pointer;
+    opacity: 70%;
+}
+
+#d:hover{
+    cursor:pointer;
+    opacity: 70%;
+}
+
+/* styling for quiz instructions paragraph */
 .description{
     display: flex;
     height: 50px;
@@ -97,7 +144,7 @@
     text-align: center;
 }
 
-
+/* container for the start quiz button */
 .startButtonContainer{
     display:flex;
     height: 50px;
@@ -107,8 +154,9 @@
     padding-top: 10px;
 }
 
+/* styling for every button in the quiz application */
+
 .button{
-    display: flex;
     background-color: blueviolet;
     color: white;
     border-radius: 8px;
@@ -123,9 +171,88 @@
     opacity: 90%;
 }
 
+
+/* styling for the high scores page */
 .scores{
     display: flex;
     justify-content: center;
     align-items: flex-start
 }
 
+.score{
+    display:flex;
+    justify-content: center;
+}
+
+/* styling for the initials input box after completing the quiz */
+
+#initials{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* styling for all of the scores when displaying */
+.scoreContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.initialsContainer{
+    display: flex;
+    justify-content: center;
+}
+
+#scoreTitle{
+    margin:auto;
+    padding-bottom: 2%;
+}
+
+#scoreNumber{
+    margin: auto;
+    padding-bottom: 2%;
+}
+
+#submitBtn {
+    margin-top: 2%;
+}
+
+/* title/description of the high scores */
+.highScoresTitle{
+    list-style: none;
+    font-size: x-large;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 2%;
+    padding-top: 2%;
+
+
+}
+
+/* styling for each score thats saved in local storage and displayed on the page */
+.highScoresTitle li{
+    font-size: medium;
+    background-color: rgb(169, 128, 207);
+    padding-top: .5%
+    
+    
+}
+
+/* clear high scores button styling */
+
+#clearHighScores{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+}
+
+
+/* button to go back to the original start quiz page styling */
+#goBackButton{
+    display: flex;
+    flex-direction: row;
+    width: 6%;
+    align-self: center;
+    margin-bottom: 1%;
+}
